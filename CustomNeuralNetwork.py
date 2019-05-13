@@ -66,6 +66,9 @@ class NeuralNetwork:
 	    for epoch in range(epochs):
 	      for x, y_true in zip(data, all_y_trues):
 	        # --- Do a feedforward (we'll need these values later)
+	        # print(x)
+	        # print(y_true)
+	        # raise SystemExit
 	        sum_h1 = self.w1 * x[0] + self.w2 * x[1] + self.b1
 	        h1 = sigmoid(sum_h1)
 
@@ -124,7 +127,10 @@ class NeuralNetwork:
 
 #Mean Squared Error function
 def mse_loss(y_true, y_pred):
-  return ((y_true - y_pred) ** 2).mean()
+	# print(y_true)
+	# print(y_pred)
+	# raise SystemExit
+	return ((y_true - y_pred) ** 2).mean()
 
 # y_true = np.array([1, 0, 0, 1])
 # y_pred = np.array([0, 0, 0, 0])
@@ -143,24 +149,32 @@ def mse_loss(y_true, y_pred):
 
 
 df = pd.read_csv('data/data.csv')
-print(df)
+# print(df)
 
 df.Weight = df.Weight-df.Weight.mean().astype(int)
 df.Height = df.Height-df.Height.mean().astype(int)
-print(df)
-raise SystemExit
+# print(df)
+
 
 inputData = df[["Weight", "Height"]]
-print(inputData)
+# print(inputData)
 targetData = df[["Gender"]]
-print(targetData)
+# print(targetData)
 # raise SystemExit
 targetData.loc[targetData["Gender"] == 'F', 'Gender'] = 0
 targetData.loc[targetData["Gender"] == 'M', 'Gender'] = 1
-print(targetData)
+# print(targetData)
 
 
 # Train our neural network!
+
+inputData = np.array([inputData.Weight, inputData.Height]).transpose()
+targetData = np.array(targetData.Gender).transpose()
+
+# print("\n\n")
+# print(inputData.transpose())
+# print(targetData)
+# raise SystemExit
 network = NeuralNetwork()
 network.train(inputData, targetData)
 
@@ -169,6 +183,9 @@ emily = np.array([-7, -3]) # 128 pounds, 63 inches
 frank = np.array([20, 2])  # 155 pounds, 68 inches
 print("Emily: %.3f" % network.feedforward(emily)) # 0.951 - F
 print("Frank: %.3f" % network.feedforward(frank)) # 0.039 - M
+
+
+
 
 
 
